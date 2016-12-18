@@ -2,29 +2,30 @@
 
 @since Dec-2016
 
-This is my first sandbox document. Recently I am interested in refactoring some 
+This is my first sandbox blog/document. Recently I am interested in refactoring some 
 of my constant code to a property file. I learnt that I can do the properties file
-in Java in my previous project. I also want to learn if there is a way to do similar
-thing in Scala. And I found the Typesafe Config Library. 
+in Java in my previous project. I also want to try if there is a way to do similar
+thing in Scala. So I discovered the Typesafe Config Library through researching. 
 
-It is useful to have configuration file because we can configure
+It is useful to have configuration file because we can re-configure
 without recompiling everything. I can just change the configuration without touching
-the code base. This allows the user to setup according to the need.
+the code base. This allows the users to setup according to their need.
 
-To use the library in SBT, add the following to the `build.sbt` file:
+To use the library in SBT, we need add the following to the `build.sbt` file:
 ```
 libraryDependencies += "com.typesafe" % "config" % "1.3.1"
 ```
 
 Default path of `ConfigFactory` is `application.conf`. We can specify the path at
-the `load` function like this: `ConfigFactory.load("config.conf")`
+the `load` function like this: `ConfigFactory.load("config.conf")`.
 
-It supports files in three formats: Java properties, JSON, and a human-friendly JSON superset.
-In my sandbox, I created `configs.properties`, `configs.json` and `configs.conf` respectively.
+This library supports files in three formats: Java properties, JSON, and a 
+human-friendly JSON superset. In my sandbox, I created `configs.properties`, 
+`configs.json` and `configs.conf` respectively.
 
 The library also allows merging config trees: Any two Config objects can be merged
 with an associative operation called withFallback, like 
-`merged = firstConfig.withFallback(secondConfig)`. I found this is very useful
+`merged = newConfig.withFallback(oldConfig)`. I think this is very useful
 on dealing with back versioning.
 
 Akka also uses the Typesafe Config Library, which might also be a good choice 
