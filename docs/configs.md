@@ -20,7 +20,7 @@ Default path of `ConfigFactory` is `application.conf`. We can specify the path a
 the `load` function like this: `ConfigFactory.load("config.conf")`
 
 It supports files in three formats: Java properties, JSON, and a human-friendly JSON superset.
-In my sandbox, I created configs.properties, configs.json and configs.conf respectively.
+In my sandbox, I created `configs.properties`, `configs.json` and `configs.conf` respectively.
 
 The library also allows merging config trees: Any two Config objects can be merged
 with an associative operation called withFallback, like 
