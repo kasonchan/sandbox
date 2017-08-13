@@ -47,6 +47,22 @@ Temporary Items
 # Simple Build Tool
 # http://www.scala-sbt.org/release/docs/Getting-Started/Directories.html#configuring-version-control
 
+# Hidden cross project folders
+shared/.js
+shared/.jvm
+
+# Temp files
+.~*
+*~
+*.orig
+node_modules
+
+# Eclipse
+.scala_dependencies
+.buildpath
+.cache
+.target
+bin/
 
 ### Java template
 # Mobile Tools for Java (J2ME)
