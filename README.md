@@ -13,3 +13,4 @@ repositories - untouch forever.
 - [2 - loggers.md](https://github.com/kasonchan/sandbox/blob/master/initials/docs/2%20-%20loggers.md)
 - [3 - scalajs.md](https://github.com/kasonchan/sandbox/blob/master/initials/docs/3%20-%20scalajs.md)
 - [4 - sbt.md](https://github.com/kasonchan/sandbox/blob/master/initials/docs/4%20-%20sbt.md)
+- [5 - gatling](https://github.com/kasonchan/sandbox/blob/gatling/README.md)
