@@ -1,12 +1,6 @@
-# sandbox
+# Initials
 
-Sandbox is my blog/documentation of playing around with Scala and related 
-features, frameworks, etc. 
-
-The blog will be saved in `/docs` directory in the equivalent project. 
-Hopefully, I can keep it up. And it will be fun for me documenting something new 
-that I learnt with Scala. Otherwise, this will be like my other reference 
-repositories - untouch forever. 
+Documents are linked to the `/docs`.
 
 - [0 - configs.md](https://github.com/kasonchan/sandbox/blob/master/docs/0%20-%20configs.md)
 - [1 - processes.md](https://github.com/kasonchan/sandbox/blob/master/docs/1%20-%20processes.md)
