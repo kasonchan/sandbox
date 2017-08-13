@@ -15,3 +15,4 @@ repositories - untouch forever.
 - [4 - sbt.md](https://github.com/kasonchan/sandbox/blob/master/initials/docs/4%20-%20sbt.md)
 - [5 - gatling](https://github.com/kasonchan/sandbox/blob/gatling/README.md)
 - [6 - akka-actors](https://github.com/kasonchan/sandbox/blob/akka-actors/akka-actors/README.md)
+- [7 - scalajs](https://github.com/kasonchan/sandbox/tree/scalajs/scalajs/README.md)
