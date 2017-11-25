@@ -16,4 +16,4 @@ repositories - untouch forever.
 - [5 - gatling](https://github.com/kasonchan/sandbox/blob/gatling/README.md)
 - [6 - akka-actors](https://github.com/kasonchan/sandbox/blob/akka-actors/akka-actors/README.md)
 - [7 - scalajs](https://github.com/kasonchan/sandbox/tree/scalajs/scalajs/README.md)
-- [8 - jwt](https://github.com/kasonchan/sandbox/blob/jwt)
+- [8 - jwt](https://github.com/kasonchan/sandbox/tree/master/jwt)
