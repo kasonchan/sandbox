@@ -1,3 +1,3 @@
-resolvers += "sonatype-releases" at "https://oss.sonatype.org/content/repositories/releases/"
+addSbtPlugin("io.gatling" % "gatling-sbt" % "2.2.2")
 
-addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "0.8.0")
+addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
