@@ -18,3 +18,7 @@ repositories - untouch forever.
 - [7 - scalajs](https://github.com/kasonchan/sandbox/tree/master/scalajs)
 - [8 - jwt](https://github.com/kasonchan/sandbox/tree/master/jwt)
 - [9 - logback](https://github.com/kasonchan/sandbox/tree/master/logback)
+
+## Licence
+
+This code is open source software licensed under the [MIT](https://opensource.org/licenses/MIT) license.
