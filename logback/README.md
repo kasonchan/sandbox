@@ -70,6 +70,27 @@ Create a configuration file `logback.xml` in `src/main/resources`
 
 Create `ColoredLevel` to match different `Level` to different color
 
+## Create a different logger and log to different file
+
+Add a new logger
+
+```
+val log2: Logger = LoggerFactory.getLogger("foo")
+```
+
+Add new logback configuration for the new logger
+
+```
+<logger name="foo" level="INFO">
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+      <file>${application.home:-.}/logs/foo.log</file>
+      <encoder>
+        <pattern>%d{ISO8601} %-10level %-10logger{10} %thread - %message%n%xException</pattern>
+      </encoder>
+    </appender>
+  </logger>
+```
+
 ## References
 
 - https://logback.qos.ch/manual/layouts.html

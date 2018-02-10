@@ -8,4 +8,5 @@ import org.slf4j.{Logger, LoggerFactory}
   */
 trait MyLogger {
   val log: Logger = LoggerFactory.getLogger(this.getClass)
+  val log2: Logger = LoggerFactory.getLogger("foo")
 }

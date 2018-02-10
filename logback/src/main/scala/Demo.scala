@@ -11,6 +11,7 @@ object Demo extends MyLogger {
     log.warn("This is a warning message")
     log.error("This is an error message")
     log.debug("This is a debug message")
+    log2.info("This is a info message on log2")
   }
 
 }
