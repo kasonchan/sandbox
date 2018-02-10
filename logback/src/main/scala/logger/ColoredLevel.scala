@@ -12,12 +12,17 @@ class ColoredLevel extends ClassicConverter {
 
   override def convert(event: ILoggingEvent): String = {
     event.getLevel match {
-      case Level.TRACE => "[" + Console.BLUE + "TRACE" + Console.RESET + "]"
-      case Level.DEBUG => "[" + Console.CYAN + "DEBUG" + Console.RESET + "]"
-      case Level.INFO  => "[" + Console.WHITE + "INFO" + Console.RESET + "]"
-      case Level.WARN  => "[" + Console.YELLOW + "WARN" + Console.RESET + "]"
-      case Level.ERROR => "[" + Console.RED + "ERROR" + Console.RESET + "]"
+      case Level.TRACE => mergeString(Level.TRACE, Console.BLUE)
+      case Level.DEBUG => mergeString(Level.DEBUG, Console.CYAN)
+      case Level.INFO  => mergeString(Level.INFO, Console.WHITE)
+      case Level.WARN  => mergeString(Level.WARN, Console.YELLOW)
+      case Level.ERROR => mergeString(Level.ERROR, Console.RED)
     }
+  }
+
+  private def mergeString(level: Level, color: String): String = {
+    val mergedString = s"$color$level${Console.RESET}"
+    f"$mergedString%-16s"
   }
 
 }
