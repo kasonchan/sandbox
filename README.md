@@ -18,6 +18,7 @@ repositories - untouch forever.
 - [7 - scalajs](https://github.com/kasonchan/sandbox/tree/master/scalajs)
 - [8 - jwt](https://github.com/kasonchan/sandbox/tree/master/jwt)
 - [9 - logback](https://github.com/kasonchan/sandbox/tree/master/logback)
+- [10 - configs](https://github.com/kasonchan/sandbox/tree/master/configs)
 
 ## Licence
 
