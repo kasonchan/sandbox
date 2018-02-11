@@ -1,3 +1,3 @@
 #!/bin/bash
 mkdir -p logs
-nohup sh ../bin/sandbox-configs > logs/server.log &
+nohup bin/sandbox-configs -Dconfig.file=configs/application.conf > logs/server.log 2>&1 &

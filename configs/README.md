@@ -30,3 +30,9 @@ service$ mv -v usr/share/sandbox-configs/* .
 ```
 service$ scripts/start.sh
 ```
+
+## Set default configuration at service startup
+
+```
+... -Dconfig.file=configs/application.conf ...
+```

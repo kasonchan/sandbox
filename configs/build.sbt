@@ -20,6 +20,9 @@ lazy val root = (project in file("."))
       "com.typesafe.akka" %% "akka-http-testkit" % "10.0.10" % Test,
       "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.10"
     ),
-    mappings in Universal ++= directory("scripts")
+    mappings in Universal ++= directory("scripts"),
+    mappings in Universal ++= directory("src/main/resources").map {
+      t => (t._1, t._2.replace("resources", "configs"))
+    }
   )
   .enablePlugins(JavaAppPackaging, SystemdPlugin, RpmPlugin, UniversalPlugin)
