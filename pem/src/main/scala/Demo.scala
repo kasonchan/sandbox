@@ -1,9 +1,8 @@
-import java.io.{FileOutputStream, OutputStreamWriter}
-import java.security.KeyPairGenerator
+import java.io.{File => JFile}
+import java.security.{KeyPairGenerator, Security}
 
-import org.bouncycastle.util.io.pem._
-
-import scala.util.{Failure, Success, Try}
+import better.files.Dsl._
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 
 /**
   * @author kasonchan
@@ -12,35 +11,32 @@ import scala.util.{Failure, Success, Try}
 object Demo {
 
   def main(args: Array[String]): Unit = {
+    Security.addProvider(new BouncyCastleProvider())
     val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
     keyPairGenerator.initialize(2048)
     val keyPair = keyPairGenerator.generateKeyPair()
     val publicKey = keyPair.getPublic
     val privateKey = keyPair.getPrivate
 
-    println(publicKey)
-    println(privateKey)
+    import sun.misc.BASE64Encoder
+    val encoder = new BASE64Encoder
 
-    val pemObject: PemObject =
-      new PemObject("RSA PRIVATE KEY", privateKey.getEncoded)
+    println(encoder.encode(privateKey.getEncoded))
+    println(encoder.encode(publicKey.getEncoded))
 
-    println("----- Private key encoded -----")
-    println(privateKey.getEncoded.map(x => x.toChar).mkString)
+    (pwd / "privateKey.pem")
+      .createIfNotExists()
+      .overwrite(s"")
+      .appendLines("-----BEGIN RSA PRIVATE KEY-----",
+                   encoder.encode(privateKey.getEncoded),
+                   "-----END RSA PRIVATE KEY-----")
 
-    Try {
-      writePem(pemObject, "priv.pem")
-    } match {
-      case Success(s) => println("Wrote to priv.pem successful")
-      case Failure(e) =>
-        println(s"Failed written to priv.pem: ${e.getLocalizedMessage}")
-    }
-  }
-
-  def writePem(pemObject: PemObject, filename: String) = {
-    Try {
-      new PemWriter(new OutputStreamWriter(new FileOutputStream(filename)))
-        .write(pemObject.getContent.map(_.toChar))
-    }
+    (pwd / "publicKey.pem")
+      .createIfNotExists()
+      .overwrite(s"")
+      .appendLines("-----BEGIN RSA PUBLIC KEY-----",
+                   encoder.encode(publicKey.getEncoded),
+                   "-----END RSA PUBLIC KEY-----")
   }
 
 }
