@@ -26,4 +26,5 @@ Akka
 
 ## Licence
 
-This code is open source software licensed under the [MIT](https://opensource.org/licenses/MIT) license.
+This code is open source software/documentation licensed under the 
+[MIT](https://opensource.org/licenses/MIT) license.
