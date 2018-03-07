@@ -1,7 +1,12 @@
 import akka.{Done, NotUsed}
 import akka.actor.{ActorSystem, Props}
-import akka.stream.scaladsl.{Flow, Sink, Source}
-import akka.stream.{ActorMaterializer, Materializer, ThrottleMode}
+import akka.stream.scaladsl.{Flow, Sink, Source, SourceQueueWithComplete}
+import akka.stream.{
+  ActorMaterializer,
+  Materializer,
+  OverflowStrategy,
+  ThrottleMode
+}
 import akka.pattern.ask
 import akka.util.Timeout
 
@@ -56,6 +61,13 @@ object Demo {
       .mapAsync(10)(bulkExecution)
 
     source.via(ws).runForeach(e => print(s"$e "))
+
+    val queue: SourceQueueWithComplete[Int] = Source
+      .queue[Int](1, OverflowStrategy.backpressure)
+      .to(Sink.foreach(println))
+      .run
+
+    source.mapAsync(1)(m => queue.offer(m.x)).runWith(Sink.ignore)
 
     StdIn.readLine()
     system.terminate()

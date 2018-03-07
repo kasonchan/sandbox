@@ -32,6 +32,20 @@
 - `KillSwitches`: Creates shared or single kill switches which can be used to 
   control completion of graphs from the outside.
 
+## Create a source queue
+
+- `def queue[T](bufferSize: Int, overflowStrategy: OverflowStrategy): Source[T, SourceQueueWithComplete[T]]` Creates a `Source` that
+ is materialized as an `akka.stream.scaladsl.SourceQueue`.
+  - The strategy `akka.stream.OverflowStrategy.backpressure` will not complete 
+    last `offer():Future` call when buffer is full.
+- `def offer(elem: T): Future[QueueOfferResult]` Method offers next element to 
+  a stream and returns future that 
+  - completes with `Enqueued` if element is consumed by a stream
+  - completes with `Dropped` when stream dropped offered element
+  - completes with `QueueClosed` when stream is completed during future is active
+  - completes with `Failure(f)` when failure to enqueue element from upstream
+  - fails when stream is completed or you cannot call offer in this moment because of implementation rules
+ 
 ## References
 
 - https://doc.akka.io/docs/akka/2.5.5/scala/stream/stages-overview.html
