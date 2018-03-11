@@ -23,6 +23,7 @@ repositories - untouch forever.
 Akka
 - [actors](https://github.com/kasonchan/sandbox/tree/master/akka-actors)
 - [actors-termination](https://github.com/kasonchan/sandbox/tree/master/akka-actors-termination)
+- [streams](https://github.com/kasonchan/sandbox/tree/master/akka-streams)
 
 ## Licence
 
