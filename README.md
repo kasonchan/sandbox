@@ -19,6 +19,7 @@ repositories - untouch forever.
 - [logback](https://github.com/kasonchan/sandbox/tree/master/logback)
 - [configs](https://github.com/kasonchan/sandbox/tree/master/configs)
 - [docker](https://github.com/kasonchan/sandbox/tree/master/docker)
+- [k8s](https://github.com/kasonchan/sandbox/tree/master/k8s)
 
 Akka
 - [actors](https://github.com/kasonchan/sandbox/tree/master/akka-actors)
