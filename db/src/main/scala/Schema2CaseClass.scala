@@ -1,10 +1,9 @@
-/**
-  * @author kasonchan
-  * @since 2020-05
-  */
 import org.apache.spark.sql.types._
 
 /**
+  * @author kasonchan
+  * @since 2020-05
+  *
   * Usage:
   * import Schema2CaseClass.implicits._
   * val headers: String = Schema2CaseClass.schemaToCaseClass(data.schema, "Headers")
