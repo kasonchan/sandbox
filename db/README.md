@@ -18,8 +18,11 @@ libraryDependencies ++= Seq(
 
 ```
 # docker
+
 docker pull mongo:latest
 docker run --name mongodb -dt -p 127.0.0.1:27017:27017 mongo
+
+# build.sbt
 
 libraryDependencies ++= Seq(
   "org.mongodb.spark" %% "mongo-spark-connector" % "2.4.1",
@@ -27,8 +30,13 @@ libraryDependencies ++= Seq(
 )
 ```
 
+In this sandbox, added thread sleep to the end of the app because connection to 
+MongoDB take sometimes before it returns to main app.
+
 ### References
 - http://mongodb.github.io/mongo-scala-driver/2.6/getting-started/
+- https://www.programcreek.com/scala/org.mongodb.scala.MongoClient
+- http://reactivemongo.org/
 
 ## Postgres
 
