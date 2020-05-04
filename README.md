@@ -1,12 +1,12 @@
 # sandbox
 
-Sandbox is my blog/documentation of playing around with Scala and related
+Sandbox is my blog and documentation of playing around with Scala and related
 features, frameworks, toolkits, etc.
 
-The blog will be saved in `/docs` directory or other name directory in the equivalent project.
+The blog posts are saved in `initials/docs` or other named projects.
 Hopefully, I can keep it up. And it will be fun for me documenting something new
-that I learnt with Scala and other technologies. Otherwise, this will be like my other reference
-repositories - untouch forever.
+that I learnt with Scala and other technologies. Otherwise, this will be like 
+my other reference repositories - untouch forever.
 
 - [configs.md](https://github.com/kasonchan/sandbox/blob/master/initials/docs/0%20-%20configs.md)
 - [processes.md](https://github.com/kasonchan/sandbox/blob/master/initials/docs/1%20-%20processes.md)
@@ -20,6 +20,7 @@ repositories - untouch forever.
 - [configs](https://github.com/kasonchan/sandbox/tree/master/configs)
 - [docker](https://github.com/kasonchan/sandbox/tree/master/docker)
 - [k8s](https://github.com/kasonchan/sandbox/tree/master/k8s)
+- [db](https://github.com/kasonchan/sandbox/tree/master/db)
 
 Akka
 - [actors](https://github.com/kasonchan/sandbox/tree/master/akka-actors)
