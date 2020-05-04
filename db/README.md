@@ -9,6 +9,12 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "2.4.5",
   "org.apache.spark" %% "spark-sql" % "2.4.5"
 )
+
+# resources/log4j.properties
+
+log4j.logger.org.apache.spark=WARN
+log4j.logger.Remoting=WARN
+log4j.logger.org.eclipse.jetty=WARN
 ```
 
 ### References
@@ -46,4 +52,14 @@ MongoDB take sometimes before it returns to main app.
 docker pull postgres:latest
 docker run --name postgresdb -dt -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v pgdata=/var/lib/postgresql/data/ postgres
 
+# build.sbt
+
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % "2.4.5",
+  "org.apache.spark" %% "spark-sql" % "2.4.5",
+  "org.postgresql" % "postgresql" % "9.4-1201-jdbc41"
+)
 ```
+
+### References
+- https://spark.apache.org/docs/latest/sql-data-sources-jdbc.html
