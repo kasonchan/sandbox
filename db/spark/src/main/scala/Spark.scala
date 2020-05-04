@@ -17,7 +17,7 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
   * References
   * https://docs.mongodb.com/spark-connector/master/scala-api/
   */
-case object Spark {
+object Spark {
   val ss: SparkSession =
     createSparkSession("db", "127.0.0.1", "test", "myCollection", "local[*]")
 
@@ -31,10 +31,10 @@ case object Spark {
     .load("src/main/resources/data-1588432647739.csv")
 
   // Write to Mongodb
-  MongoSpark.save(data)
+  def writeData(data: DataFrame) = MongoSpark.save(data)
 
   // Read new data from Mongodb
-  val newData: DataFrame = MongoSpark.load(ss)
+  def readData(ss: SparkSession): DataFrame = MongoSpark.load(ss)
 
   def createSparkSession(appName: String,
                          host: String,

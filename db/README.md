@@ -40,4 +40,10 @@ MongoDB take sometimes before it returns to main app.
 
 ## Postgres
 
+```
+# docker
 
+docker pull postgres:latest
+docker run --name postgresdb -dt -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v pgdata=/var/lib/postgresql/data/ postgres
+
+```
