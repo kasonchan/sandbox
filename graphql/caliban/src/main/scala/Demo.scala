@@ -43,6 +43,7 @@ object Demo extends App {
   val myAppLogic: ZIO[Console, CalibanError.ValidationError, Unit] = {
     for {
       _ <- putStrLn(GQL.api.render)
+      _ <- putStrLn(GQL.api.toDocument.toString)
       i <- GQL.api.interpreter
       rEP <- i.execute(queryEmailPassword)
       _ <- putStrLn("Querying for users email password")
