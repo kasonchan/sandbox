@@ -1,21 +1,19 @@
-import java.io.InputStream
+import java.security.cert.{Certificate, CertificateFactory}
 import java.security.{KeyStore, SecureRandom}
 
 import akka.actor.ActorSystem
 import akka.grpc.scaladsl.ServiceHandler
+import akka.http.scaladsl.ConnectionContext.httpsServer
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse}
-import akka.http.scaladsl.{
-  ConnectionContext,
-  Http,
-  HttpConnectionContext,
-  HttpsConnectionContext
-}
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.http.scaladsl.{Http, HttpsConnectionContext}
+import akka.pki.pem.{DERPrivateKeyLoader, PEMDecoder}
 import com.typesafe.config.ConfigFactory
-import helloworld.grpc.{ServiceImpl, ServiceHandler => HWServiceHandler}
+import helloworld.{Service, ServiceImpl, ServiceHandler => HWServiceHandler}
 import javax.net.ssl.{KeyManagerFactory, SSLContext, TrustManagerFactory}
 
+import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContext, Future}
+import scala.io.Source
 
 /**
   * @author kasonchan
@@ -31,48 +29,56 @@ object Server extends App {
 class Server(system: ActorSystem) {
   def run(): Future[Http.ServerBinding] = {
     // Configure HTTPs
-    val password: Array[Char] =
-      ConfigFactory.load("password.conf").getString("password").toCharArray
-    val ks: KeyStore = KeyStore.getInstance("PKCS12")
-    val keystore: InputStream =
-      getClass.getClassLoader.getResourceAsStream("keystore.pkcs12")
+    val privateKeyString = Source.fromResource("certs/server.key.pem").mkString
+    val privateKey =
+      DERPrivateKeyLoader.load(PEMDecoder.decode(privateKeyString))
 
-    require(keystore != null, "Keystore required!")
-    ks.load(keystore, password)
+    val certificateFactory = CertificateFactory.getInstance("X.509")
+    val certificate = certificateFactory.generateCertificate(
+      classOf[Service].getResourceAsStream("/certs/server.cert.pem")
+    )
+
+    val keyStore: KeyStore = KeyStore.getInstance("PKCS12")
+    keyStore.load(null)
+    keyStore.setKeyEntry(
+      "private",
+      privateKey,
+      new Array[Char](0),
+      Array[Certificate](certificate)
+    )
 
     val keyManagerFactory: KeyManagerFactory =
       KeyManagerFactory.getInstance("SunX509")
-    keyManagerFactory.init(ks, password)
+    keyManagerFactory.init(keyStore, null)
 
-    val tmf: TrustManagerFactory = TrustManagerFactory.getInstance("SunX509")
-    tmf.init(ks)
+    val trustManagerFactory: TrustManagerFactory =
+      TrustManagerFactory.getInstance("SunX509")
+    trustManagerFactory.init(keyStore)
 
     val sslContext: SSLContext = SSLContext.getInstance("TLS")
     sslContext.init(keyManagerFactory.getKeyManagers,
-                    tmf.getTrustManagers,
+                    trustManagerFactory.getTrustManagers,
                     new SecureRandom)
-    val https: HttpsConnectionContext =
-      ConnectionContext.https(sslContext)
+    val https: HttpsConnectionContext = httpsServer(sslContext)
 
     implicit val sys: ActorSystem = system
-    implicit val mat: Materializer = ActorMaterializer()
     implicit val ec: ExecutionContext = sys.dispatcher
 
+    // PartialFunction allow multiple services concatenated
     val service: PartialFunction[HttpRequest, Future[HttpResponse]] =
       HWServiceHandler.partial(new ServiceImpl())
-
     val services: HttpRequest => Future[HttpResponse] =
       ServiceHandler.concatOrNotFound(service)
 
-    Http().setDefaultServerHttpContext(https)
-    val binding = Http().bindAndHandleAsync(services,
-                                            interface = "127.0.0.1",
-                                            port = 8080,
-                                            connectionContext = https)
+    val binding = Http()
+      .newServerAt(interface = "localhost", port = 8080)
+      .enableHttps(https)
+      .bind(services)
+      .map(_.addToCoordinatedShutdown(hardTerminationDeadline = 3.minutes))
 
-    // report successful binding
+    // Report successful binding
     binding.foreach { binding =>
-      system.log.info(s"gRPC server bound to: ${binding.localAddress}")
+      system.log.info(s"gRPC server bound to ${binding.localAddress}")
     }
 
     binding
