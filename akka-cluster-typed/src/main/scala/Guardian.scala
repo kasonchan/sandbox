@@ -16,7 +16,6 @@ import scala.concurrent.duration._
   */
 case object Guardian {
   private case object WorkTimerKey
-  private case object NotificationTimerKey
 
   def apply: Behavior[Buzz] = Behaviors.withTimers(timers => starting(timers))
 
@@ -39,17 +38,17 @@ case object Guardian {
       val notification: ActorRef[Topic.Command[Buzz]] =
         context.spawnAnonymous(Topic[Buzz]("notification"))
 
-      ConfigFactory
-        .load()
-        .getString("role") match {
-        case "SUB" =>
-          context.log.info(
-            s"${context.system.address.system} subscribing to topic......")
-          notification ! Topic.Subscribe(context.self)
-      }
-
       Behaviors.receiveMessage[Buzz] {
         case Activate =>
+          ConfigFactory
+            .load()
+            .getString("role") match {
+            case "SUB" =>
+              context.log.info(
+                s"${context.system.address.system} subscribing to topic......")
+              notification ! Topic.Subscribe(context.self)
+            case _ =>
+          }
           ready(router, 0, notification, timers)
         case buzz =>
           Behaviors.same
@@ -84,6 +83,7 @@ case object Guardian {
                 notification ! Topic.Publish(
                   Notification(context.self,
                                s"${context.system.address}: notification"))
+              case _ =>
             }
 
             ready(router, workCount + 1, notification, timers)
