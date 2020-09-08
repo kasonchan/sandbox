@@ -1,0 +1,43 @@
+import akka.actor.typed._
+import akka.cluster.Cluster
+import akka.cluster.typed.Join
+import akka.actor.typed._
+import akka.actor.typed.scaladsl._
+import akka.cluster.ClusterEvent._
+import akka.cluster.MemberStatus
+import akka.cluster.typed._
+
+import scala.concurrent.ExecutionContextExecutor
+
+/**
+  * @author kasonchan
+  * @since 2020-09
+  */
+sealed trait Buzz
+case object Activate extends Buzz
+case object Timeout extends Buzz
+case object Fatal extends Exception("Exception") with Buzz
+
+sealed trait Job extends Buzz
+case class New(j: Int, replyTo: ActorRef[Buzz]) extends Job
+case class Unprocessed(j: Int, replyTo: ActorRef[Buzz]) extends Job
+case class Processed(j: Int) extends Job
+
+case class Notification(startFrom: ActorRef[Buzz], message: String) extends Job
+
+case object Service {
+  implicit private val system: ActorSystem[Buzz] =
+    ActorSystem(System(), "service")
+  val cluster: Cluster = Cluster(system)
+  implicit val ec: ExecutionContextExecutor = system.executionContext
+
+  def start: ActorSystem[Buzz] = system
+  system.log.info("{}", cluster.getSelfRoles.toArray.mkString(", "))
+}
+
+object Application {
+  def main(args: Array[String]): Unit = {
+    val service = Service.start
+    service.systemActorOf(Guardian.apply, "guardian")
+  }
+}
