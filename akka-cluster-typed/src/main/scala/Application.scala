@@ -1,11 +1,5 @@
 import akka.actor.typed._
 import akka.cluster.Cluster
-import akka.cluster.typed.Join
-import akka.actor.typed._
-import akka.actor.typed.scaladsl._
-import akka.cluster.ClusterEvent._
-import akka.cluster.MemberStatus
-import akka.cluster.typed._
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -25,7 +19,9 @@ case class New(j: Int, replyTo: ActorRef[Buzz])
 case class Unprocessed(j: Int, replyTo: ActorRef[Buzz])
     extends Job
     with CborSerializable
-case class Processed(j: Int) extends Job with CborSerializable
+case class Processed(j: Int, by: ActorRef[Buzz], to: ActorRef[Buzz])
+    extends Job
+    with CborSerializable
 
 case class Notification(startFrom: ActorRef[Buzz], message: String)
     extends Job

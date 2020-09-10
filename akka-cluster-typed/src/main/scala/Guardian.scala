@@ -26,7 +26,7 @@ case object Guardian {
 
       // Drone group
       val pool: PoolRouter[Buzz] = Routers
-        .pool(1)(
+        .pool(5)(
           // Restart drones if they fail
           Behaviors
             .supervise(Drone.apply)
@@ -81,8 +81,9 @@ case object Guardian {
                 context.log.info(
                   s"${context.system.address.system} publishing topic......")
                 notification ! Topic.Publish(
-                  Notification(context.self,
-                               s"${context.system.address}: notification"))
+                  Notification(
+                    context.self,
+                    s"${context.system.address}: notification $workCount"))
               case _ =>
             }
 

@@ -1,10 +1,8 @@
+import akka.actor.typed._
 import akka.actor.typed.receptionist.{Receptionist, ServiceKey}
 import akka.actor.typed.scaladsl.{Behaviors, Routers, TimerScheduler}
-import akka.actor.typed._
 
 import scala.concurrent.duration._
-
-import akka.actor.typed.pubsub.Topic
 
 /**
   * @author kasonchan

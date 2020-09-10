@@ -17,11 +17,11 @@ case object Worker {
         Behaviors.receiveMessage {
           case n: New =>
             context.log.info("[READY] {} {}", workCount, n)
-            n.replyTo ! Processed(n.j)
+            n.replyTo ! Processed(n.j, context.self, n.replyTo)
             ready(timers, workCount + 1)
           case u: Unprocessed =>
             context.log.info("[READY] {} {}", workCount, u)
-            u.replyTo ! Processed(u.j)
+            u.replyTo ! Processed(u.j, context.self, u.replyTo)
             ready(timers, workCount + 1)
           case buzz: Buzz =>
             context.log.warn("[READY] {} {}", workCount, buzz.toString)
