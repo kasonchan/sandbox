@@ -14,7 +14,7 @@
  +--------+        
 ```
 
-## Timer
+## [Timer](https://doc.akka.io/docs/akka/current/typed/interaction-patterns.html#scheduling-messages-to-self)
 
 - Create a timer key `WorkTimerKey`.
 - Schedule to send `Activate` message without delay.
@@ -35,7 +35,7 @@ timers.startTimerWithFixedDelay(WorkTimerKey,
 timers.cancel(WorkTimerKey)
 ```
 
-## Routing
+## [Routing](https://doc.akka.io/docs/akka/current/typed/routers.html) 
 
 Create a 5-routee pool router and it restarts the blocking dispatched actor when there is an exception failure.
 
@@ -67,7 +67,7 @@ context.system.receptionist ! Receptionist.Register(groupServiceKey,
 val router: ActorRef[Buzz] = context.spawn(group, "worker-group")
 ```
 
-## Cluster
+## [Cluster](https://doc.akka.io/docs/akka/current/typed/cluster.html)
 
 ```
 # application.conf
@@ -81,7 +81,7 @@ akka.cluster.roles = ["drone"]
 akka.cluster.multi-data-center.self-data-center = "dub"
 ```
 
-### Add serializer
+### Add [serializer](https://doc.akka.io/docs/akka/2.6/serialization-jackson.html)
 
 ```
 # application.conf
@@ -93,7 +93,11 @@ akka.actor.serialization-bindings."CborSerializable" = jackson-cbor
 
 Extends message classes with `CborSerializable` as stated in `application.conf`.
 
-### Distributed Pub Sub
+```
+sealed trait CborSerializable
+```
+
+### [Distributed Pub Sub](https://doc.akka.io/docs/akka/current/typed/distributed-pub-sub.html)
 
 - Create anonymous actor on `Buzz` type `notification` topic 
 - Subscribe to topic
