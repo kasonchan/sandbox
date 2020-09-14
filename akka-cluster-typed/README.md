@@ -1,5 +1,7 @@
 # akka-cluster-typed
 
+This repository is a sandbox playing with Akka cluster typed.
+
 ```
 +----------+
 | Guardian |
@@ -14,7 +16,7 @@
  +--------+        
 ```
 
-## [Timer](https://doc.akka.io/docs/akka/current/typed/interaction-patterns.html#scheduling-messages-to-self)
+### [Timer](https://doc.akka.io/docs/akka/current/typed/interaction-patterns.html#scheduling-messages-to-self)
 
 - Create a timer key `WorkTimerKey`.
 - Schedule to send `Activate` message without delay.
@@ -35,7 +37,7 @@ timers.startTimerWithFixedDelay(WorkTimerKey,
 timers.cancel(WorkTimerKey)
 ```
 
-## [Routing](https://doc.akka.io/docs/akka/current/typed/routers.html) 
+### [Routing](https://doc.akka.io/docs/akka/current/typed/routers.html) 
 
 Create a 5-routee pool router and it restarts the blocking dispatched actor when there is an exception failure.
 
@@ -67,7 +69,7 @@ context.system.receptionist ! Receptionist.Register(groupServiceKey,
 val router: ActorRef[Buzz] = context.spawn(group, "worker-group")
 ```
 
-## [Cluster](https://doc.akka.io/docs/akka/current/typed/cluster.html)
+### [Cluster](https://doc.akka.io/docs/akka/current/typed/cluster.html)
 
 ```
 # application.conf
@@ -81,7 +83,7 @@ akka.cluster.roles = ["drone"]
 akka.cluster.multi-data-center.self-data-center = "dub"
 ```
 
-### Add [serializer](https://doc.akka.io/docs/akka/2.6/serialization-jackson.html)
+#### Add [serializer](https://doc.akka.io/docs/akka/2.6/serialization-jackson.html)
 
 ```
 # application.conf
@@ -97,7 +99,7 @@ Extends message classes with `CborSerializable` as stated in `application.conf`.
 sealed trait CborSerializable
 ```
 
-### [Distributed Pub Sub](https://doc.akka.io/docs/akka/current/typed/distributed-pub-sub.html)
+#### [Distributed Pub Sub](https://doc.akka.io/docs/akka/current/typed/distributed-pub-sub.html)
 
 - Create anonymous actor on `Buzz` type `notification` topic 
 - Subscribe to topic
@@ -117,7 +119,21 @@ notification ! Topic.Publish(
                     s"${context.system.address}: notification $workCount"))
 ```
 
-References
+## Run steps
+
+- Seed nodes are set to `12010` and `12020`, two nodes need to be up before others can join.
+- Export environment variable to override it from `application.conf`.
+
+```
+# akka.cluster.seed-nodes = ["akka://service@127.0.0.1:12010", "akka://service@127.0.0.1:12020"]
+
+akka-cluster-typed $ export SERVICE_PORT=<service port>
+akka-cluster-typed $ sbt run
+```
+
+## References
 
 - Configuration: https://doc.akka.io/docs/akka/current/general/configuration-reference.html
 - Serializers: https://doc.akka.io/docs/akka/2.6/serialization-jackson.html
+- K8s discovery: https://doc.akka.io/docs/akka-management/current/discovery/kubernetes.html
+- K8s form a cluster: https://doc.akka.io/docs/akka-management/current/kubernetes-deployment/forming-a-cluster.html
