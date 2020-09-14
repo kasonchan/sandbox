@@ -29,6 +29,7 @@ Akka
 - [actors](https://github.com/kasonchan/sandbox/tree/master/akka-actors)
 - [actors-termination](https://github.com/kasonchan/sandbox/tree/master/akka-actors-termination)
 - [streams](https://github.com/kasonchan/sandbox/tree/master/akka-streams)
+- [akka-cluster-typed](https://github.com/kasonchan/sandbox/tree/master/akka-cluster-typed)
 
 ## Licence
 
